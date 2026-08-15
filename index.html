@@ -3,269 +3,217 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Shader Workshop — Offline C/C++ shader playground</title>
-  <meta name="description" content="Shader Workshop is a standalone app to run Shadertoy-style shaders written in C/C++. CPU software rendering, multipass, media, export — no GPU required." />
+  <title>Shader Workshop — C/C++ shaders offline</title>
+  <meta name="description" content="Write Shadertoy-style shaders in C/C++. Offline native app with multipass, media, audio, export, and CPU software rendering." />
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="shared/comparison.css" />
-  <link rel="stylesheet" href="shared/lightbox.css" />
+  <link rel="stylesheet" href="../shared/comparison.css" />
+  <link rel="stylesheet" href="../shared/lightbox.css" />
 </head>
 <body>
   <a class="back-link" href="../">← All design variants</a>
 
-  <header class="topbar">
-    <div class="topbar-inner">
-      <a class="brand" href="#">
-        <span class="brand-mark">SW</span>
+  <nav class="nav" aria-label="Primary">
+    <div class="nav-inner">
+      <a class="logo" href="#">
+        <span class="logo-mark" aria-hidden="true"></span>
         Shader Workshop
       </a>
-      <nav class="nav" aria-label="Primary">
-        <a href="#features">features</a>
-        <a href="#media">media</a>
-        <a href="#why">why</a>
-        <a href="#compare">compare</a>
-        <a href="#download">download</a>
-        <a href="https://robertwinkler.com" target="_blank" rel="noopener">author</a>
-      </nav>
-      <div class="social">
-        <a href="https://rswinkle.itch.io/shader-workshop" title="itch.io" target="_blank" rel="noopener">itch</a>
-        <a href="https://github.com/rswinkle/shader_workshop_tracker" title="GitHub issues" target="_blank" rel="noopener">git</a>
-        <a href="https://robertwinkler.com" title="Robert Winkler" target="_blank" rel="noopener">web</a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#media">Media</a>
+        <a href="#why">Why</a>
+        <a href="#compare">Compare</a>
+        <a href="https://robertwinkler.com" target="_blank" rel="noopener">Author</a>
+        <a class="nav-cta" href="https://rswinkle.itch.io/shader-workshop" target="_blank" rel="noopener">Get on itch.io</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow">Offline · Linux &amp; Windows · Beta</div>
+        <h1>Shadertoy energy.<br /><span>C/C++ control.</span></h1>
+        <p class="hero-lead">
+          A standalone playground for image-style shaders written in real C/C++.
+          Multipass float buffers, video &amp; webcam, procedural audio, freefly camera —
+          all on the CPU. No driver roulette.
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="https://rswinkle.itch.io/shader-workshop" target="_blank" rel="noopener">Buy on itch.io</a>
+          <a class="btn btn-secondary" href="#compare">See how it compares</a>
+        </div>
+        <div class="meta-row">
+          <span><strong>Buy once</strong> · own forever</span>
+          <span><strong>CPU path</strong> · PortableGL</span>
+          <span><strong>OpenMP</strong> · live threads</span>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="chrome">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        </div>
+        <a class="lb-shot" href="../shared/screenshots/tileable_water_caustic_speed_graph.png" target="_blank" rel="noopener">
+          <img
+            class="hero-shot"
+            src="../shared/screenshots/tileable_water_caustic_speed_graph.png"
+            alt="Tileable water caustic shader with the Speed tab frame-time graph"
+            loading="eager" />
+        </a>
       </div>
     </div>
   </header>
 
-  <section class="hero">
-    <h1>Shader Workshop is a simple offline playground for Shadertoy-style shaders — written in C/C++.</h1>
-    <p class="hero-sub">
-      Standalone Linux &amp; Windows app. Multipass, float buffers, video, webcam, audio, freefly camera,
-      and full-frame SIMD control. Runs entirely on the CPU via PortableGL.
-    </p>
-    <div class="cta-row">
-      <a class="btn btn-primary" href="https://rswinkle.itch.io/shader-workshop" target="_blank" rel="noopener">Get it on itch.io</a>
-      <a class="btn btn-ghost" href="#compare">Feature comparison</a>
+  <section class="section" id="features">
+    <div class="section-head">
+      <h2>Built for people who want more than a browser tab</h2>
+      <p>Everything you expect from a modern shader playground — plus a real native toolchain.</p>
     </div>
-    <div class="note-box">
-      <strong>NOTE for ADVENTURERS:</strong>
-      This is not an in-browser GLSL editor. You write real C/C++ (GLM, rsw_math, or PortableGL math),
-      compile to a shared library, and step through with a normal debugger. Are you ready to enjoy coding?
-    </div>
-  </section>
-
-  <!-- learning / quick links grid -->
-  <div class="full-bleed">
-    <section class="section" id="start">
-      <h2><a class="hash" href="#start">#</a>get started</h2>
-      <p class="section-lead">Packages for Linux and Windows. Still beta — mostly because more features are planned, not because it is unusable.</p>
-      <div class="card-grid">
-        <a class="icon-card" href="https://rswinkle.itch.io/shader-workshop" target="_blank" rel="noopener">
-          <div class="icon">⬇</div>
-          <div class="label">Download</div>
-          <div class="sub">buy &amp; download now</div>
-        </a>
-        <a class="icon-card" href="#media">
-          <div class="icon">▶</div>
-          <div class="label">Videos</div>
-          <div class="sub">YouTube embeds</div>
-        </a>
-        <a class="icon-card" href="#compare">
-          <div class="icon">⧉</div>
-          <div class="label">Compare</div>
-          <div class="sub">vs Shadertoy &amp; FragCoord</div>
-        </a>
-        <a class="icon-card" href="https://github.com/rswinkle/shader_workshop_tracker" target="_blank" rel="noopener">
-          <div class="icon">⚑</div>
-          <div class="label">Issues</div>
-          <div class="sub">bugs &amp; wishlist</div>
-        </a>
-        <a class="icon-card" href="#features">
-          <div class="icon">{ }</div>
-          <div class="label">Features</div>
-          <div class="sub">what it can do</div>
-        </a>
-        <a class="icon-card" href="#why">
-          <div class="icon">?</div>
-          <div class="label">Why</div>
-          <div class="sub">why it exists</div>
-        </a>
-      </div>
-    </section>
-  </div>
-
-  <!-- platforms -->
-  <section class="section" id="platforms">
-    <h2><a class="hash" href="#platforms">#</a>supported platforms</h2>
-    <p class="section-lead">Native packages today; shaders themselves are plain C/C++ with OpenMP.</p>
-    <div class="pill-row">
-      <span class="pill">Windows</span>
-      <span class="pill">Linux</span>
-      <span class="pill">CPU software path</span>
-      <span class="pill">OpenMP threads</span>
-      <span class="pill">SDL3</span>
+    <div class="bento">
+      <article class="bento-card span-6 accent">
+        <div class="icon">{ }</div>
+        <h3>C/C++ shaders</h3>
+        <p>GLM, rsw_math, PortableGL math, or your own libraries. Open <code>.c</code>/<code>.cpp</code> sources, auto-compile to shared libraries, hot-reload on save.</p>
+      </article>
+      <article class="bento-card span-6">
+        <div class="icon">⬚</div>
+        <h3>Multipass &amp; float buffers</h3>
+        <p>A–D style passes, RGBA32F storage, independent resolutions, pass recursion, and previous-frame feedback via <code>u_main</code>.</p>
+      </article>
+      <article class="bento-card span-4">
+        <div class="icon">⚡</div>
+        <h3>Frame shaders</h3>
+        <p>Own the whole framebuffer with <code>mainFrame</code>. SIMD, custom loops, full-buffer algorithms.</p>
+      </article>
+      <article class="bento-card span-4">
+        <div class="icon">🎞</div>
+        <h3>Rich media</h3>
+        <p>2D, cubemaps, volumes, video files, webcam, screen capture, local paths and URLs.</p>
+      </article>
+      <article class="bento-card span-4">
+        <div class="icon">♪</div>
+        <h3>Audio</h3>
+        <p><code>mainSound</code>, FFT/wave textures, mic input, always-on spectrogram, post-mix analysis.</p>
+      </article>
+      <article class="bento-card span-3">
+        <div class="icon">📷</div>
+        <h3>Freefly cam</h3>
+        <p>Built-in camera uniforms for exploring 3D scenes.</p>
+      </article>
+      <article class="bento-card span-3">
+        <div class="icon">⏺</div>
+        <h3>Export</h3>
+        <p>Screenshots, MP4 video, and audio-only capture.</p>
+      </article>
+      <article class="bento-card span-3">
+        <div class="icon">⏱</div>
+        <h3>Time &amp; res</h3>
+        <p>Pause, scrub, FPS control, locked or free canvas size.</p>
+      </article>
+      <article class="bento-card span-3">
+        <div class="icon">🐛</div>
+        <h3>Real debug</h3>
+        <p>Breakpoints, prints, profilers — normal C tools.</p>
+      </article>
     </div>
   </section>
 
-  <!-- features -->
-  <div class="full-bleed">
-    <section class="section" id="features">
-      <h2><a class="hash" href="#features">#</a>features</h2>
-      <p class="section-lead">A Shadertoy-like runtime without the browser — and with the power of a real C toolchain.</p>
-      <ul class="feature-list">
-        <li><strong>C/C++ shaders</strong> — GLM, rsw_math, PortableGL builtins, or your own code</li>
-        <li><strong>Open sources directly</strong> — auto-compile to <code>.so</code>/<code>.dll</code>, file-watch reload</li>
-        <li><strong>OpenMP</strong> — live thread-count control for performance tuning</li>
-        <li><strong>Frame shaders</strong> — write the whole framebuffer (SIMD-friendly <code>mainFrame</code>)</li>
-        <li><strong>No GPU required</strong> — software rendering via PortableGL</li>
-        <li><strong>Multipass</strong> — buffers, float storage (RGBA32F), per-pass resolution, recursion</li>
-        <li><strong>Media</strong> — 2D, cubemaps, volumes, video files, webcam, screen capture</li>
-        <li><strong>Audio</strong> — <code>mainSound</code>, FFT/wave textures, mic, post-mix analysis</li>
-        <li><strong>Freefly camera</strong> — built-in uniforms for 3D exploration</li>
-        <li><strong>Export</strong> — screenshots, MP4 video, audio-only export</li>
-        <li><strong>Time &amp; resolution control</strong> — pause, scrub, FPS lock, canvas size</li>
-        <li><strong>Custom UI params</strong> — <code>do_user_gui</code> for live knobs</li>
-      </ul>
-    </section>
-  </div>
-
-  <!-- media -->
   <section class="section" id="media">
-    <h2><a class="hash" href="#media">#</a>screenshots &amp; videos</h2>
-    <p class="section-lead">
-      Cubemaps, video, custom GUI, mainSound, uniforms, and the Speed tab.
-    </p>
-
-    <div class="media-grid" style="margin-bottom: 1.5rem;">
-      <figure class="shot-card">
-        <a class="lb-shot" href="shared/screenshots/cubemap_demo1.png" target="_blank" rel="noopener">
-          <img src="shared/screenshots/cubemap_demo1.png" alt="Cubemap gnomonic demo with a gallery courtyard on the Channels tab" loading="lazy" />
-        </a>
-      </figure>
-      <figure class="shot-card">
-        <a class="lb-shot" href="shared/screenshots/minkowski_madness_custom_gui.png" target="_blank" rel="noopener">
-          <img src="shared/screenshots/minkowski_madness_custom_gui.png" alt="Minkowski tunnel shader with a custom parameter GUI" loading="lazy" />
-        </a>
-      </figure>
-      <figure class="shot-card">
-        <a class="lb-shot" href="shared/screenshots/music_synthesizer_mainSound.png" target="_blank" rel="noopener">
-          <img src="shared/screenshots/music_synthesizer_mainSound.png" alt="Music synthesizer mainSound demo with piano-roll custom UI" loading="lazy" />
-        </a>
-      </figure>
-      <figure class="shot-card">
-        <a class="lb-shot" href="shared/screenshots/tileable_water_caustic_speed_graph.png" target="_blank" rel="noopener">
-          <img src="shared/screenshots/tileable_water_caustic_speed_graph.png" alt="Water caustic shader with the Speed tab frame-time graph" loading="lazy" />
-        </a>
-      </figure>
-      <figure class="shot-card">
-        <a class="lb-shot" href="shared/screenshots/uniforms.png" target="_blank" rel="noopener">
-          <img src="shared/screenshots/uniforms.png" alt="test_uniforms shader showing live uniform values and channel thumbnails" loading="lazy" />
-        </a>
-      </figure>
-      <figure class="shot-card">
-        <a class="lb-shot" href="shared/screenshots/video_greenscreen_effect.png" target="_blank" rel="noopener">
-          <img src="shared/screenshots/video_greenscreen_effect.png" alt="Video greenscreen effect with the Speed tab open" loading="lazy" />
-        </a>
-      </figure>
+    <div class="section-head">
+      <h2>See it in motion</h2>
+      <p>Demo videos and a few looks at the UI.</p>
     </div>
-
-    <div class="media-grid">
-      <div class="video-placeholder">
-        <iframe
-          src="https://www.youtube.com/embed/pcdQkHTF5ik"
-          title="Shader Workshop video"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-          loading="lazy"></iframe>
+    <div class="media-strip">
+      <div class="video-stack">
+        <div class="video-box">
+          <iframe
+            src="https://www.youtube.com/embed/pcdQkHTF5ik"
+            title="Shader Workshop video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy"></iframe>
+        </div>
+        <div class="video-box">
+          <iframe
+            src="https://www.youtube.com/embed/kdT0mRoWvUM"
+            title="Shader Workshop video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy"></iframe>
+        </div>
       </div>
-      <div class="video-placeholder">
-        <iframe
-          src="https://www.youtube.com/embed/kdT0mRoWvUM"
-          title="Shader Workshop video"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-          loading="lazy"></iframe>
+      <div class="shot-stack">
+        <a class="lb-shot" href="../shared/screenshots/cubemap_demo1.png" target="_blank" rel="noopener">
+          <img class="shot-img" src="../shared/screenshots/cubemap_demo1.png" alt="Cubemap gnomonic demo with a gallery courtyard on the Channels tab" loading="lazy" />
+        </a>
+        <a class="lb-shot" href="../shared/screenshots/minkowski_madness_custom_gui.png" target="_blank" rel="noopener">
+          <img class="shot-img" src="../shared/screenshots/minkowski_madness_custom_gui.png" alt="Minkowski tunnel shader with a custom parameter GUI" loading="lazy" />
+        </a>
+        <a class="lb-shot" href="../shared/screenshots/music_synthesizer_mainSound.png" target="_blank" rel="noopener">
+          <img class="shot-img" src="../shared/screenshots/music_synthesizer_mainSound.png" alt="Music synthesizer mainSound demo with piano-roll custom UI" loading="lazy" />
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- why -->
-  <div class="full-bleed">
-    <section class="section" id="why">
-      <h2><a class="hash" href="#why">#</a>why does it exist?</h2>
-      <div class="prose">
-        <p>
-          There are plenty of shader-art sites: Shadertoy, twigl, GLSLsandbox, oneshader, sledit,
-          FragCoord, and more. Shader Workshop exists for people who want a
-          <strong>Shadertoy-like workflow offline</strong> — no browser, no mandatory internet —
-          and who prefer the <strong>full power of C/C++</strong> over GLSL ergonomics alone.
-        </p>
-        <p>
-          Step through a shader line by line. Insert print statements. Keep real state.
-          Mix rasterized geometry with image-style passes. Use the tools you already know for
-          debugging and profiling. Chase FPS on the CPU if that is your idea of fun.
-        </p>
-        <p>
-          Supporting the project also supports ongoing work on
-          <strong>PortableGL</strong> and <strong>Nuklear</strong> — bugs fixed and features added
-          because this app needed them.
-        </p>
+  <div class="why-band" id="why">
+    <section class="section">
+      <div class="section-head">
+        <h2>Why another shader tool?</h2>
+        <p>Browser playgrounds are great. Sometimes you want something else.</p>
+      </div>
+      <div class="why-grid">
+        <div class="why-card">
+          <h3>Offline by design</h3>
+          <p>No account, no network requirement, no “the site is down” when you want to create. Packages for Linux and Windows.</p>
+        </div>
+        <div class="why-card">
+          <h3>Language you control</h3>
+          <p>Trade GLSL’s ergonomics for C/C++ power: real state, mixed rendering techniques, and the debugger you already use.</p>
+        </div>
+        <div class="why-card">
+          <h3>CPU as a feature</h3>
+          <p>Software rendering means fewer driver surprises — and a playground for OpenMP, SIMD, and performance nerdery.</p>
+        </div>
       </div>
     </section>
   </div>
 
-  <!-- comparison -->
   <section class="section" id="compare">
-    <h2><a class="hash" href="#compare">#</a>feature comparison</h2>
-    <p class="section-lead">
-      Capability matrix for Shadertoy · FragCoord · Shader Workshop.
-      Ratings describe support for each feature, not overall product quality.
-    </p>
-    <div id="comparison-mount"></div>
+    <div class="section-head">
+      <h2>Feature comparison</h2>
+      <p>Shadertoy · FragCoord · Shader Workshop — what each product is strong at.</p>
+    </div>
+    <div class="compare-wrap">
+      <div id="comparison-mount"></div>
+    </div>
   </section>
 
-  <!-- download / support -->
-  <div class="full-bleed">
-    <section class="section" id="download">
-      <h2><a class="hash" href="#download">#</a>get Shader Workshop</h2>
-      <p class="section-lead">
-        Available now on itch.io (still beta). Buy once, own forever — no subscription, no ads.
-        Purchases include updates through 1.x.
-      </p>
-      <div class="cta-row">
-        <a class="btn btn-primary" href="https://rswinkle.itch.io/shader-workshop" target="_blank" rel="noopener">Open itch.io page</a>
-        <a class="btn btn-ghost" href="https://github.com/rswinkle/shader_workshop_tracker" target="_blank" rel="noopener">Report issues</a>
-      </div>
-      <div class="card-grid" style="margin-top: 2rem;">
-        <div class="icon-card">
-          <div class="icon">🐧</div>
-          <div class="label">Linux</div>
-          <div class="sub">native package</div>
-        </div>
-        <div class="icon-card">
-          <div class="icon">🪟</div>
-          <div class="label">Windows</div>
-          <div class="sub">native package</div>
-        </div>
-        <div class="icon-card">
-          <div class="icon">♥</div>
-          <div class="label">Buy once</div>
-          <div class="sub">own forever</div>
-        </div>
-      </div>
-    </section>
+  <div class="cta-band" id="download">
+    <h2>Ready to open the workshop?</h2>
+    <p>
+      Available now on itch.io. One-time purchase includes updates through 1.x.
+      No subscription, no ads — buy once, own forever.
+    </p>
+    <div class="cta-row" style="justify-content:center">
+      <a class="btn btn-primary" href="https://rswinkle.itch.io/shader-workshop" target="_blank" rel="noopener">Get Shader Workshop</a>
+      <a class="btn btn-secondary" href="https://github.com/rswinkle/shader_workshop_tracker" target="_blank" rel="noopener">Issue tracker</a>
+    </div>
   </div>
 
-  <footer class="site-footer">
-    <p>
-      Shader Workshop ·
-      by <a href="https://robertwinkler.com" target="_blank" rel="noopener">Robert Winkler</a> ·
-      <a href="https://shaderworkshop.com">shaderworkshop.com</a> ·
-      <a href="https://rswinkle.itch.io/shader-workshop">itch.io</a> ·
-      <a href="https://github.com/rswinkle/shader_workshop_tracker">issue tracker</a>
-    </p>
-    <p style="margin-top:0.5rem;opacity:0.7">Static site · GitHub Pages friendly · Design variant: raylib-inspired</p>
+  <footer>
+    <div class="links">
+      <a href="https://robertwinkler.com" target="_blank" rel="noopener">robertwinkler.com</a>
+      <a href="https://shaderworkshop.com">shaderworkshop.com</a>
+      <a href="https://rswinkle.itch.io/shader-workshop">itch.io</a>
+      <a href="https://github.com/rswinkle/shader_workshop_tracker">tracker</a>
+      <a href="../">other variants</a>
+    </div>
+    <p>Shader Workshop by <a href="https://robertwinkler.com" target="_blank" rel="noopener">Robert Winkler</a> · static site · design: modern-landing</p>
   </footer>
 
-  <script src="shared/comparison.js"></script>
-  <script src="shared/lightbox.js"></script>
+  <script src="../shared/comparison.js"></script>
+  <script src="../shared/lightbox.js"></script>
   <script>
     SWComparison.mount("#comparison-mount");
   </script>
