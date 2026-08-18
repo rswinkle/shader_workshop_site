@@ -82,7 +82,7 @@
         ["Social explore / likes / publish", "yes", "yes", "no"],
         ["SoundCloud integration", "no", "yes", "no"],
         ["VR pass (mainVR)", "yes", "no", "no"],
-        ['Shared "Common" / snippet library', "yes", "yes", "partial"],
+        ['Shared "Common" / snippet library', "yes", "yes", "yes"],
         ["MIP-mapped sampling modes", "yes", "yes", "partial"],
       ],
     },
@@ -166,15 +166,30 @@
     );
   }
 
+  function officialComparisonHref() {
+    var scripts = document.getElementsByTagName("script");
+    for (var i = 0; i < scripts.length; i++) {
+      var src = scripts[i].getAttribute("src") || "";
+      if (src.indexOf("comparison.js") !== -1) {
+        return src.replace("comparison.js", "Official_Feature_Comparison.html");
+      }
+    }
+    return "shared/Official_Feature_Comparison.html";
+  }
+
   function mount(selector) {
     var el = typeof selector === "string" ? document.querySelector(selector) : selector;
     if (!el) return;
+    var details = officialComparisonHref();
     el.innerHTML =
       '<div class="cmp-root">' +
       renderLegend() +
       renderSummary() +
       renderTable() +
       '<p class="cmp-footnote">Ratings describe support for that feature, not overall product quality. ' +
+      'Full notes: <a href="' +
+      details +
+      '">detailed comparison</a>. ' +
       'Corrections welcome via the <a href="https://github.com/rswinkle/shader_workshop_tracker" target="_blank" rel="noopener">issue tracker</a>.</p>' +
       "</div>";
   }

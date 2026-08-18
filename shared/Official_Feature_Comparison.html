@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Feature comparison — Shadertoy · FragCoord · Shader Workshop</title>
+  <meta name="description" content="Capability matrix for Shadertoy, FragCoord, and Shader Workshop. Ratings describe support for each feature, not overall product quality." />
+  <link rel="stylesheet" href="comparison.css" />
+  <style>
+    :root {
+      --page-bg: #0c0e14;
+      --page-text: #e8e8f0;
+      --page-muted: #9a9ab0;
+      --page-link: #5ec8ff;
+      --page-rule: rgba(255, 255, 255, 0.08);
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      background: var(--page-bg);
+      color: var(--page-text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      line-height: 1.55;
+    }
+    .doc {
+      max-width: 58rem;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 4rem;
+    }
+    .doc-nav {
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+    }
+    .doc-nav a { color: var(--page-link); }
+    h1 {
+      font-size: 1.85rem;
+      line-height: 1.25;
+      margin: 0 0 0.75rem;
+    }
+    h2 {
+      font-size: 1.25rem;
+      margin: 2.25rem 0 0.75rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--page-rule);
+    }
+    h3 {
+      font-size: 1.05rem;
+      margin: 1.5rem 0 0.5rem;
+    }
+    p, li { color: var(--page-muted); }
+    p { margin: 0 0 0.85rem; }
+    a { color: var(--page-link); }
+    strong { color: var(--page-text); }
+    code {
+      font-family: ui-monospace, "Cascadia Code", "SF Mono", Menlo, monospace;
+      font-size: 0.88em;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.08em 0.35em;
+      border-radius: 4px;
+    }
+    .notes {
+      margin: 0 0 0.5rem;
+      padding-left: 1.2rem;
+    }
+    .notes li { margin-bottom: 0.45rem; }
+    .cmp-table.cmp-legend-table,
+    .cmp-table.cmp-read-table {
+      min-width: 0;
+    }
+    .cmp-table.cmp-legend-table td:first-child,
+    .cmp-table.cmp-read-table td:first-child {
+      text-align: left;
+      white-space: nowrap;
+    }
+    .cmp-table.cmp-read-table td:last-child {
+      text-align: left;
+    }
+    .cmp-table.cmp-read-table {
+      min-width: 0;
+    }
+  </style>
+</head>
+<body>
+  <article class="doc cmp-root">
+    <p class="doc-nav"><a href="../index.html">← site variants</a></p>
+ 
+    <h1>Feature comparison: Shadertoy · FragCoord · Shader Workshop</h1>
+    <p>
+      Capability matrix for people choosing a shader playground or runtime.
+      Ratings describe <strong>support for that feature</strong>, not overall product quality.
+    </p>
+ 
+    <div class="cmp-table-wrap">
+      <table class="cmp-table cmp-legend-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th class="cmp-feature-col">Meaning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-feature"><strong>Yes</strong> — solid, first-class support</td>
+          </tr>
+          <tr>
+            <td><span class="cmp-badge cmp-partial"><span class="cmp-emoji">🟡</span><span class="cmp-label">Partial</span></span></td>
+            <td class="cmp-feature"><strong>Partial</strong> — present but limited, awkward, incomplete, or unreliable</td>
+          </tr>
+          <tr>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td class="cmp-feature"><strong>No</strong> — not offered in a useful form</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+ 
+    <p style="margin-top:1.25rem">
+      <strong>Columns:</strong>
+      <a href="https://www.shadertoy.com" target="_blank" rel="noopener">Shadertoy.com</a> ·
+      <a href="https://fragcoord.xyz" target="_blank" rel="noopener">FragCoord.xyz</a> ·
+      <a href="https://shaderworkshop.com">Shader Workshop</a>
+      (offline C/C++ app; CPU software rendering via PortableGL)
+    </p>
+    <p>
+      Ratings prefer first-hand product knowledge and public docs
+      (including <a href="https://fragcoord.xyz/changelog" target="_blank" rel="noopener">FragCoord’s changelog</a>,
+      current through <strong>v1.3.2</strong>, August 2026).
+      Where something is still unknown (e.g. FragCoord audio-only export), it is marked
+      <span class="cmp-badge cmp-unknown"><span class="cmp-emoji">—</span><span class="cmp-label">—</span></span>
+      rather than guessed.
+    </p>
+ 
+    <h2>Core rendering</h2>
+    <div class="cmp-table-wrap">
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th class="cmp-feature-col">Feature</th>
+            <th>Shadertoy</th>
+            <th>FragCoord</th>
+            <th class="cmp-highlight-col">Shader Workshop</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cmp-feature">Image pass (<code>mainImage</code> / equivalent)</td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Multipass buffers (A–D style)</td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Float multipass storage (e.g. RGBA32F)</td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Independent per-pass resolution</td>
+            <td><span class="cmp-badge cmp-partial"><span class="cmp-emoji">🟡</span><span class="cmp-label">Partial</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Whole-buffer / full-frame control (CPU SIMD, custom frame loop)</td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Built-in pass recursion (N iterations per frame)</td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Multiple render targets (MRT)</td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">GPU compute passes</td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Writable 1D / volume pass buffers</td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Notes</strong></p>
+    <ul class="notes">
+      <li>Shadertoy buffers are high-precision float; Image is 8-bit. Per-pass size is not free-form like dedicated tools (hence 🟡).</li>
+      <li>FragCoord <strong>32-bit float pass formats</strong> are documented since 0.7.1 / 0.8 (<a href="https://fragcoord.xyz/changelog" target="_blank" rel="noopener">changelog</a>); HTML export and WebGPU honor float buffers and <code>u_main</code> feedback.</li>
+      <li>Whole-buffer control is a <strong>CPU-app</strong> idea (<code>mainFrame</code> in Workshop). FragCoord’s <strong>recursion</strong> is separate and listed on its own row — not the same as a host-side frame pointer / SIMD loop. FragCoord <strong>compute</strong> (WebGPU; switch a pass between Fragment and Compute) is GPU compute, not <code>mainFrame</code>.</li>
+      <li>FragCoord <strong>MRT</strong> (<code>fragColor1</code> / <code>fragData[i]</code>, sample via <code>u_passN_outL</code>) and <strong>1D / cubemap / volume pass buffers</strong> shipped in 1.3 <em>Output</em>; non-2D buffers and MRT are <strong>Pro</strong>. WebGL HTML export still blocks non-2D buffers and MRT (use Embed or GLSL).</li>
+      <li>Workshop: <code>PASS_FMT_RGBA32F</code> / per-pass scale·absolute via <code>set_pass_config</code>; <code>mainFrame</code>; <code>pass_config.recursion</code> + <code>u_recursion</code> / <code>u_max_recursion</code>. No MRT, no GPU compute, no writable 1D/volume passes.</li>
+    </ul>
+ 
+    <h2>Audio</h2>
+    <div class="cmp-table-wrap">
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th class="cmp-feature-col">Feature</th>
+            <th>Shadertoy</th>
+            <th>FragCoord</th>
+            <th class="cmp-highlight-col">Shader Workshop</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cmp-feature">Procedural sound-out (<code>mainSound</code>)</td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Music / analysis texture (classic 512×2 FFT + wave)</td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td><span class="cmp-badge cmp-unknown"><span class="cmp-emoji">—</span><span class="cmp-label">—</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Always-on audio history (512×512 spectrogram)</td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Microphone input</td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Live post-mix / “what you hear” analysis</td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td><span class="cmp-badge cmp-unknown"><span class="cmp-emoji">—</span><span class="cmp-label">—</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Notes</strong></p>
+    <ul class="notes">
+      <li>Shadertoy <code>mainSound</code> is precomputed; Workshop streams. FragCoord does not document Shadertoy-style <code>mainSound</code>.</li>
+      <li>FragCoord <code>u_audio</code> is documented as a <strong>512×512</strong> history (weighted FFT / waveform / raw FFT). Sources: mic, file, URL, or webcam, with a redesigned tuner/playbar. Workshop provides the same class of feature as always-on <code>u_audio</code> (device postmix) <strong>and</strong> Shadertoy-style <strong>512×2</strong> channel textures for ports.</li>
+      <li>“—” for FragCoord classic 512×2 / post-mix: not scored as missing product features without clear docs; they may fold audio into <code>u_audio</code> only.</li>
+    </ul>
+ 
+    <h2>Video, camera &amp; capture</h2>
+    <div class="cmp-table-wrap">
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th class="cmp-feature-col">Feature</th>
+            <th>Shadertoy</th>
+            <th>FragCoord</th>
+            <th class="cmp-highlight-col">Shader Workshop</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cmp-feature">Webcam</td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Screen capture as input</td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Video file textures</td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Built-in freefly camera uniforms</td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Notes</strong></p>
+    <ul class="notes">
+      <li>FragCoord: live webcam <strong>or</strong> screen capture <strong>or</strong> a video file as a feed (redesigned <code>u_webcam</code> tuner: play/pause and seek for video sources). Workshop: separate <code>WEBCAM</code> and <code>SCREENCAP</code> channels (primary display; FPS / resolution prefs).</li>
+      <li>Freefly: FragCoord <code>u_camera_pos</code> / <code>u_camera_dir</code> plus <strong>gamepad</strong> camera controls (1.3); Workshop adds <code>u_camera_view</code> and freefly prefs (keyboard + mouse).</li>
+      <li>FragCoord video (and other media) is configured via the <strong>sampler / input UI</strong>: URL load plus a catalog of presets, with tabs filtered by sampler type (<code>sampler2D</code> vs 3D, etc.).</li>
+    </ul>
+ 
+    <h2>Inputs &amp; media</h2>
+    <div class="cmp-table-wrap">
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th class="cmp-feature-col">Feature</th>
+            <th>Shadertoy</th>
+            <th>FragCoord</th>
+            <th class="cmp-highlight-col">Shader Workshop</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cmp-feature">Keyboard</td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Mouse (position / click / drag style)</td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Cubemap textures (static assets)</td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Procedural cubemap pass (CubeA / <code>mainCubemap</code>)</td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">3D volume textures</td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Custom local / URL media</td>
+            <td><span class="cmp-badge cmp-partial"><span class="cmp-emoji">🟡</span><span class="cmp-label">Partial</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Previous-canvas feedback without a free buffer (<code>u_main</code>)</td>
+            <td><span class="cmp-badge cmp-partial"><span class="cmp-emoji">🟡</span><span class="cmp-label">Partial</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Notes</strong></p>
+    <ul class="notes">
+      <li>Shadertoy keyboard is a <strong>channel</strong> texture; FragCoord and Workshop expose keyboard without using a channel slot (Workshop: always-on array).</li>
+      <li>Shadertoy previous-frame feedback is usually <strong>buffer self-bind</strong> (🟡 vs dedicated previous-main). FragCoord/Workshop: <code>u_main</code> (Workshop also under recursion). FragCoord 1.3.1 fixed ping-pong / <code>u_main</code> export and thumbnail capture.</li>
+      <li>FragCoord media: <strong>URL grab</strong> (similar idea to Workshop custom loads) <strong>and</strong> a built-in catalog in the sampler configuration panel (1.3: hide tiles, favorites, Poly Haven and procedural textures). Equirectangular cubemaps upload on WebGPU. CubeA-style <strong>cubemap pass buffers</strong> are now first-class on FragCoord (1.3, Pro for non-2D).</li>
+      <li>Workshop still has no procedural cubemap <em>pass</em> (static cubemap assets and sampling only).</li>
+    </ul>
+ 
+    <h2>Playback, export &amp; authoring</h2>
+    <div class="cmp-table-wrap">
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th class="cmp-feature-col">Feature</th>
+            <th>Shadertoy</th>
+            <th>FragCoord</th>
+            <th class="cmp-highlight-col">Shader Workshop</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cmp-feature">Pause / time scrub / FPS control</td>
+            <td><span class="cmp-badge cmp-partial"><span class="cmp-emoji">🟡</span><span class="cmp-label">Partial</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Global canvas resolution control</td>
+            <td><span class="cmp-badge cmp-partial"><span class="cmp-emoji">🟡</span><span class="cmp-label">Partial</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Screenshots</td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Video export</td>
+            <td><span class="cmp-badge cmp-partial"><span class="cmp-emoji">🟡</span><span class="cmp-label">Partial</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Audio-only export</td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td><span class="cmp-badge cmp-unknown"><span class="cmp-emoji">—</span><span class="cmp-label">—</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Custom parameters UI</td>
+            <td><span class="cmp-badge cmp-partial"><span class="cmp-emoji">🟡</span><span class="cmp-label">Partial</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">In-browser GLSL (or multi-lang) editor</td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Offline native app / local binaries</td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">CPU software path (no GPU required to run)</td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Notes</strong></p>
+    <ul class="notes">
+      <li>Shadertoy time/resolution controls and export are more limited than dedicated tools.</li>
+      <li>FragCoord: strong time/resolution control (1.3.2: click timeline to play/pause, drag to seek; viewport W×H lock including Square), export to several targets (WebGL HTML, Shadertoy, HLSL, Metal, WGSL, SKSL, Slang, Golf), Tuner. Video export includes audio, loop settings, live WebM capture, and a code overlay option. Audio-only export not rated without confirmation. PWA install exists; still not a native offline binary.</li>
+      <li>Workshop: C/C++ shaders as shared libraries + <code>do_user_gui</code> — not an in-app GLSL editor <strong>by design</strong>. MP4 (with audio) and audio-only export.</li>
+    </ul>
+ 
+    <h2>Analysis, community &amp; niche</h2>
+    <div class="cmp-table-wrap">
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th class="cmp-feature-col">Feature</th>
+            <th>Shadertoy</th>
+            <th>FragCoord</th>
+            <th class="cmp-highlight-col">Shader Workshop</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cmp-feature">Expression inspect / intermediate visualization</td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">NaN / Inf / OOR pixel flags</td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Instruction / cost heatmap</td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Frame-time history graph</td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Social explore / likes / publish</td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">SoundCloud integration</td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">VR pass (<code>mainVR</code>)</td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Shared “Common” / snippet library</td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-partial"><span class="cmp-emoji">🟡</span><span class="cmp-label">Partial</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">MIP-mapped sampling modes</td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-partial"><span class="cmp-emoji">🟡</span><span class="cmp-label">Partial</span></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Notes</strong></p>
+    <ul class="notes">
+      <li>FragCoord’s inspector suite (Tuner, Inspect, Errors, Frames / Speed tab, Heatmap) is a core product differentiator (<a href="https://mini.gmshaders.com/p/fragcoord" target="_blank" rel="noopener">Xor’s overview</a>). Later changelog items: rebuilt Inspect, Speed tab with per-pass GPU time, heatmap memory estimates, HDR / <code>u_color_gamut</code>.</li>
+      <li>Workshop <strong>Speed</strong> tab is a first-class frame-time graph (shader-work ms, hover samples, click-to-pause, 64/128/256 window, FPS-budget line). Debug tooling is otherwise normal C tooling, not expression recompile. NaN overlay and tile heatmap are still open.</li>
+      <li><strong>SoundCloud on Shadertoy:</strong> integration has been <strong>broken for years</strong> after SoundCloud API changes (community reports and related tools cite the same breakage). Rated 🔴 as not useful in practice, even if UI remnants remain. FragCoord added working SoundCloud-driven audio-reactive shaders in 0.9.1 (proxy + redesigned audio picker). Workshop never offered it.</li>
+      <li>Workshop “Common” is headers / <code>#include</code> rather than a web Common tab (🟡 = different model, not “broken”). FragCoord’s Common tab plus a community snippet library (save / share / autocomplete).</li>
+      <li>MIP modes: Shadertoy and FragCoord both support MIP/filter configuration for samplers (FragCoord also mips float buffers). Workshop builds a real mip chain for <strong>static 2D textures and cubemaps</strong> (channel checkbox / <code>texture_settings.mipmap</code>; <code>texture2DLod</code> / <code>texture2DGrad</code> when automatic derivatives are unavailable). Ignored for volumes, video, audio, buffers, webcam, and screen capture — hence 🟡, not 🟢.</li>
+    </ul>
+ 
+    <h2>How to read this</h2>
+    <div class="cmp-table-wrap">
+      <table class="cmp-table cmp-read-table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th class="cmp-feature-col">Best thought of as…</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Shadertoy</strong></td>
+            <td class="cmp-feature">Reference <strong>community GLSL</strong> multipass site (buffers, CubeA, social); some integrations (e.g. SoundCloud) are effectively dead.</td>
+          </tr>
+          <tr>
+            <td><strong>FragCoord</strong></td>
+            <td class="cmp-feature">Browser <strong>analysis / authoring IDE</strong> (inspect, heatmap, tuner, recursion, camera, full media catalog + URLs, <code>u_audio</code>, MRT / compute / non-2D buffers, export). Several 1.3 buffer features are Pro.</td>
+          </tr>
+          <tr>
+            <td><strong>Shader Workshop</strong></td>
+            <td class="cmp-feature"><strong>Offline C/C++ runtime</strong>: multipass/float/res, media (video, volumes, mic, webcam, screen), freefly, recursion, <code>u_main</code> / <code>u_audio</code>, mipmapped static textures, Speed-tab frame graph, export — <strong>no GPU required</strong>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+ 
+    <h3>Still unscored (avoid guessing)</h3>
+    <ul class="notes">
+      <li>FragCoord <strong>audio-only</strong> export (video+audio is confirmed; a standalone audio file is not)</li>
+      <li>Exact parity of every asset catalog item across products</li>
+    </ul>
+    <p>
+      Ratings reflect product capability as understood <strong>August 2026</strong>
+      (Shader Workshop mipmaps + Speed-tab graph; FragCoord through
+      <a href="https://fragcoord.xyz/changelog" target="_blank" rel="noopener">changelog</a> <strong>1.3.2</strong>).
+      Products change; corrections welcome via the
+      <a href="https://github.com/rswinkle/shader_workshop_tracker" target="_blank" rel="noopener">issue tracker</a>.
+    </p>
+    <p class="cmp-footnote">
+      Source markdown:
+      <a href="../Official_Feature_Comparison.md">Official_Feature_Comparison.md</a>
+    </p>
+  </article>
+</body>
+</html>
