@@ -125,10 +125,12 @@
     <p>
       Ratings prefer first-hand product knowledge and public docs
       (including <a href="https://fragcoord.xyz/changelog" target="_blank" rel="noopener">FragCoord’s changelog</a>,
-      current through <strong>v1.3.2</strong>, August 2026).
-      Where something is still unknown (e.g. FragCoord audio-only export), it is marked
+      current through <strong>v1.4.1</strong>, August 2026).
+      Audio rows that were previously
       <span class="cmp-badge cmp-unknown"><span class="cmp-emoji">—</span><span class="cmp-label">—</span></span>
-      rather than guessed.
+      were confirmed with
+      <a href="https://x.com/XorDev/status/2090940248968593753" target="_blank" rel="noopener">FragCoord’s author</a>
+      (21 Aug 2026). Remaining catalog-item unknowns are listed at the bottom rather than guessed.
     </p>
  
     <h2>Core rendering</h2>
@@ -205,7 +207,7 @@
       <li>Shadertoy buffers are high-precision float; Image is 8-bit. Per-pass size is not free-form like dedicated tools (hence 🟡).</li>
       <li>FragCoord <strong>32-bit float pass formats</strong> are documented since 0.7.1 / 0.8 (<a href="https://fragcoord.xyz/changelog" target="_blank" rel="noopener">changelog</a>); HTML export and WebGPU honor float buffers and <code>u_main</code> feedback.</li>
       <li>Whole-buffer control is a <strong>CPU-app</strong> idea (<code>mainFrame</code> in Workshop). FragCoord’s <strong>recursion</strong> is separate and listed on its own row — not the same as a host-side frame pointer / SIMD loop. FragCoord <strong>compute</strong> (WebGPU; switch a pass between Fragment and Compute) is GPU compute, not <code>mainFrame</code>.</li>
-      <li>FragCoord <strong>MRT</strong> (<code>fragColor1</code> / <code>fragData[i]</code>, sample via <code>u_passN_outL</code>) and <strong>1D / cubemap / volume pass buffers</strong> shipped in 1.3 <em>Output</em>; non-2D buffers and MRT are <strong>Pro</strong>. WebGL HTML export still blocks non-2D buffers and MRT (use Embed or GLSL).</li>
+      <li>FragCoord <strong>MRT</strong> (<code>fragColor1</code> / <code>fragData[i]</code>, sample via <code>u_passN_outL</code>) and <strong>1D / cubemap / volume pass buffers</strong> shipped in 1.3 <em>Output</em>; non-2D buffers and MRT are <strong>Pro</strong>. WebGL HTML export still blocks non-2D buffers, MRT, compute, and native WGSL/Slang/HLSL. 1.4.1 added <strong>WebGPU HTML</strong> export for 2D single-render-target compute and native WGSL; MRT and non-2D buffers stay Embed-only.</li>
       <li>Workshop: <code>PASS_FMT_RGBA32F</code> / per-pass scale·absolute via <code>set_pass_config</code>; <code>mainFrame</code>; <code>pass_config.recursion</code> + <code>u_recursion</code> / <code>u_max_recursion</code>. No MRT, no GPU compute, no writable 1D/volume passes.</li>
     </ul>
  
@@ -228,9 +230,9 @@
             <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
           </tr>
           <tr>
-            <td class="cmp-feature">Music / analysis texture (classic 512×2 FFT + wave)</td>
+            <td class="cmp-feature">Music / analysis textures as separate channel inputs (512×2 FFT + wave)</td>
             <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
-            <td><span class="cmp-badge cmp-unknown"><span class="cmp-emoji">—</span><span class="cmp-label">—</span></span></td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
             <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
           </tr>
           <tr>
@@ -248,7 +250,7 @@
           <tr>
             <td class="cmp-feature">Live post-mix / “what you hear” analysis</td>
             <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
-            <td><span class="cmp-badge cmp-unknown"><span class="cmp-emoji">—</span><span class="cmp-label">—</span></span></td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
             <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
           </tr>
         </tbody>
@@ -257,8 +259,8 @@
     <p><strong>Notes</strong></p>
     <ul class="notes">
       <li>Shadertoy <code>mainSound</code> is precomputed; Workshop streams. FragCoord does not document Shadertoy-style <code>mainSound</code>.</li>
-      <li>FragCoord <code>u_audio</code> is documented as a <strong>512×512</strong> history (weighted FFT / waveform / raw FFT). Sources: mic, file, URL, or webcam, with a redesigned tuner/playbar. Workshop provides the same class of feature as always-on <code>u_audio</code> (device postmix) <strong>and</strong> Shadertoy-style <strong>512×2</strong> channel textures for ports.</li>
-      <li>“—” for FragCoord classic 512×2 / post-mix: not scored as missing product features without clear docs; they may fold audio into <code>u_audio</code> only.</li>
+      <li>Shadertoy and Workshop bind classic <strong>512×2</strong> FFT+wave music/analysis textures as ordinary channels (multiple independent inputs). FragCoord does <strong>not</strong> — that row is 🔴. Music analysis on FragCoord is the next row: always-on <code>u_audio</code>, a <strong>512×512</strong> history (weighted FFT / waveform / raw FFT) as a <strong>sampler2D on a single input</strong> (mic, file, URL, or webcam). Confirmed with <a href="https://x.com/XorDev/status/2090940248968593753" target="_blank" rel="noopener">Xor, 21 Aug 2026</a>; the independent-channel wording follows <a href="https://x.com/robertswinkler/status/2090947610966401523" target="_blank" rel="noopener">the same thread</a>.</li>
+      <li>Workshop also has always-on <code>u_audio</code> from device <strong>postmix</strong> (what you hear). FragCoord <code>u_audio</code> is not post-mix of the full mix — hence 🔴 on that row (same confirmation).</li>
     </ul>
  
     <h2>Video, camera &amp; capture</h2>
@@ -302,7 +304,7 @@
     </div>
     <p><strong>Notes</strong></p>
     <ul class="notes">
-      <li>FragCoord: live webcam <strong>or</strong> screen capture <strong>or</strong> a video file as a feed (redesigned <code>u_webcam</code> tuner: play/pause and seek for video sources). Workshop: separate <code>WEBCAM</code> and <code>SCREENCAP</code> channels (primary display; FPS / resolution prefs).</li>
+      <li>FragCoord: live webcam <strong>or</strong> screen capture <strong>or</strong> a video file as a feed (redesigned <code>u_webcam</code> tuner: play/pause and seek for video sources). Workshop: separate <code>WEBCAM</code> and <code>SCREENCAP</code> channels. Linux <code>SCREENCAP</code> uses xdg-desktop-portal + PipeWire (GNOME/KDE Wayland and X11; compositor picker) and falls back to FFmpeg <code>x11grab</code> of the primary display if the portal is missing on X11. Windows: <code>gdigrab</code>. FPS / resolution prefs.</li>
       <li>Freefly: FragCoord <code>u_camera_pos</code> / <code>u_camera_dir</code> plus <strong>gamepad</strong> camera controls (1.3); Workshop adds <code>u_camera_view</code> and freefly prefs (keyboard + mouse).</li>
       <li>FragCoord video (and other media) is configured via the <strong>sampler / input UI</strong>: URL load plus a catalog of presets, with tabs filtered by sampler type (<code>sampler2D</code> vs 3D, etc.).</li>
     </ul>
@@ -341,7 +343,7 @@
             <td class="cmp-feature">Procedural cubemap pass (CubeA / <code>mainCubemap</code>)</td>
             <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
             <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
-            <td class="cmp-highlight-col"><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
           </tr>
           <tr>
             <td class="cmp-feature">3D volume textures</td>
@@ -369,7 +371,7 @@
       <li>Shadertoy keyboard is a <strong>channel</strong> texture; FragCoord and Workshop expose keyboard without using a channel slot (Workshop: always-on array).</li>
       <li>Shadertoy previous-frame feedback is usually <strong>buffer self-bind</strong> (🟡 vs dedicated previous-main). FragCoord/Workshop: <code>u_main</code> (Workshop also under recursion). FragCoord 1.3.1 fixed ping-pong / <code>u_main</code> export and thumbnail capture.</li>
       <li>FragCoord media: <strong>URL grab</strong> (similar idea to Workshop custom loads) <strong>and</strong> a built-in catalog in the sampler configuration panel (1.3: hide tiles, favorites, Poly Haven and procedural textures). Equirectangular cubemaps upload on WebGPU. CubeA-style <strong>cubemap pass buffers</strong> are now first-class on FragCoord (1.3, Pro for non-2D).</li>
-      <li>Workshop still has no procedural cubemap <em>pass</em> (static cubemap assets and sampling only).</li>
+      <li>Workshop Cube A is a hidden pass (<code>mainCubemap</code>, no <code>rayOri</code>, no tab): bind <code>CUBE_A</code> from Misc. RGBA8; face size is a Behavior preference (128 / 256 / 512 / 1024, default 512). Static cubemap assets remain on the Cubemaps tab.</li>
     </ul>
  
     <h2>Playback, export &amp; authoring</h2>
@@ -411,7 +413,7 @@
           <tr>
             <td class="cmp-feature">Audio-only export</td>
             <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
-            <td><span class="cmp-badge cmp-unknown"><span class="cmp-emoji">—</span><span class="cmp-label">—</span></span></td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
             <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
           </tr>
           <tr>
@@ -423,6 +425,12 @@
           <tr>
             <td class="cmp-feature">In-browser GLSL (or multi-lang) editor</td>
             <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">In-editor AI assistant</td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
             <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
             <td class="cmp-highlight-col"><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
           </tr>
@@ -444,7 +452,8 @@
     <p><strong>Notes</strong></p>
     <ul class="notes">
       <li>Shadertoy time/resolution controls and export are more limited than dedicated tools.</li>
-      <li>FragCoord: strong time/resolution control (1.3.2: click timeline to play/pause, drag to seek; viewport W×H lock including Square), export to several targets (WebGL HTML, Shadertoy, HLSL, Metal, WGSL, SKSL, Slang, Golf), Tuner. Video export includes audio, loop settings, live WebM capture, and a code overlay option. Audio-only export not rated without confirmation. PWA install exists; still not a native offline binary.</li>
+      <li>FragCoord: strong time/resolution control (1.3.2: click timeline to play/pause, drag to seek; viewport W×H lock including Square), export to several targets (WebGL HTML, WebGPU HTML, Shadertoy, HLSL, Metal, WGSL, SKSL, Slang, Golf), Tuner. Capture and Display are inspector panels (1.4). Video export includes audio, loop settings, live WebM capture, a code overlay option, and 1.4.1 compute-pass PNG/WebP/WebM/MP4 via the live WebGPU viewport. No standalone audio-only file export (<a href="https://x.com/XorDev/status/2090940248968593753" target="_blank" rel="noopener">Xor, 21 Aug 2026</a>). PWA install exists; still not a native offline binary.</li>
+      <li>FragCoord <strong>AI assistant</strong> (1.4, off unless you enable it): chat, compile-error fixes, explain selection, generate-from-prompt, optional inline completions. Hosted Pro credits or your own API key. Apply/generate support GLSL and native WGSL; other languages stay explain-only. Shadertoy and Workshop have no in-app assistant.</li>
       <li>Workshop: C/C++ shaders as shared libraries + <code>do_user_gui</code> — not an in-app GLSL editor <strong>by design</strong>. MP4 (with audio) and audio-only export.</li>
     </ul>
  
@@ -519,11 +528,11 @@
     </div>
     <p><strong>Notes</strong></p>
     <ul class="notes">
-      <li>FragCoord’s inspector suite (Tuner, Inspect, Errors, Frames / Speed tab, Heatmap) is a core product differentiator (<a href="https://mini.gmshaders.com/p/fragcoord" target="_blank" rel="noopener">Xor’s overview</a>). Later changelog items: rebuilt Inspect, Speed tab with per-pass GPU time, heatmap memory estimates, HDR / <code>u_color_gamut</code>.</li>
+      <li>FragCoord’s inspector suite (Tuner, Inspect, Errors, Frames / Speed tab, Heatmap) is a core product differentiator (<a href="https://mini.gmshaders.com/p/fragcoord" target="_blank" rel="noopener">Xor’s overview</a>). Later changelog items: rebuilt Inspect, Speed tab with per-pass GPU time, heatmap memory estimates, HDR / <code>u_color_gamut</code>. <strong>1.4 Inspect Graph</strong> overlays up to four 1D curves (or a 2D heatmap) of GLSL expressions — helpers, textures, channel toggles, lockable/log axes, cursor readouts.</li>
       <li>Workshop <strong>Speed</strong> tab is a first-class frame-time graph (shader-work ms, hover samples, click-to-pause, 64/128/256 window, FPS-budget line). Debug tooling is otherwise normal C tooling, not expression recompile. NaN overlay and tile heatmap are still open.</li>
       <li><strong>SoundCloud on Shadertoy:</strong> integration has been <strong>broken for years</strong> after SoundCloud API changes (community reports and related tools cite the same breakage). Rated 🔴 as not useful in practice, even if UI remnants remain. FragCoord added working SoundCloud-driven audio-reactive shaders in 0.9.1 (proxy + redesigned audio picker). Workshop never offered it.</li>
-      <li>Workshop “Common” is headers / <code>#include</code> rather than a web Common tab (🟡 = different model, not “broken”). FragCoord’s Common tab plus a community snippet library (save / share / autocomplete).</li>
-      <li>MIP modes: Shadertoy and FragCoord both support MIP/filter configuration for samplers (FragCoord also mips float buffers). Workshop builds a real mip chain for <strong>static 2D textures and cubemaps</strong> (channel checkbox / <code>texture_settings.mipmap</code>; <code>texture2DLod</code> / <code>texture2DGrad</code> when automatic derivatives are unavailable). Ignored for volumes, video, audio, buffers, webcam, and screen capture — hence 🟡, not 🟢.</li>
+      <li>Workshop “Common” is headers / <code>#include</code> rather than a web Common tab (🟡 = different model, not “broken”). FragCoord’s Common tab plus a community snippet library (save / share / autocomplete); 1.4 snippet pages add usage stats, a preview, and Insert into editor.</li>
+      <li>MIP modes: Shadertoy and FragCoord both support MIP/filter configuration for samplers (FragCoord also mips float buffers). Workshop builds a real mip chain for <strong>static 2D textures and cubemaps</strong> (channel checkbox / <code>texture_settings.mipmap</code>; <code>texture2DLod</code> / <code>texture2DGrad</code> when automatic derivatives are unavailable). Ignored for volumes, video, audio, buffers, webcam, screen capture, and Cube A — hence 🟡, not 🟢.</li>
     </ul>
  
     <h2>How to read this</h2>
@@ -542,11 +551,11 @@
           </tr>
           <tr>
             <td><strong>FragCoord</strong></td>
-            <td class="cmp-feature">Browser <strong>analysis / authoring IDE</strong> (inspect, heatmap, tuner, recursion, camera, full media catalog + URLs, <code>u_audio</code>, MRT / compute / non-2D buffers, export). Several 1.3 buffer features are Pro.</td>
+            <td class="cmp-feature">Browser <strong>analysis / authoring IDE</strong> (inspect + expression graph, heatmap, tuner, recursion, camera, full media catalog + URLs, <code>u_audio</code>, MRT / compute / non-2D buffers, AI assistant, articles, export). Several 1.3 buffer features are Pro.</td>
           </tr>
           <tr>
             <td><strong>Shader Workshop</strong></td>
-            <td class="cmp-feature"><strong>Offline C/C++ runtime</strong>: multipass/float/res, media (video, volumes, mic, webcam, screen), freefly, recursion, <code>u_main</code> / <code>u_audio</code>, mipmapped static textures, Speed-tab frame graph, export — <strong>no GPU required</strong>.</td>
+            <td class="cmp-feature"><strong>Offline C/C++ runtime</strong>: multipass/float/res, media (video, volumes, mic, webcam, screen), Cube A, freefly, recursion, <code>u_main</code> / <code>u_audio</code>, mipmapped static textures, Speed-tab frame graph, export — <strong>no GPU required</strong>.</td>
           </tr>
         </tbody>
       </table>
@@ -554,13 +563,14 @@
  
     <h3>Still unscored (avoid guessing)</h3>
     <ul class="notes">
-      <li>FragCoord <strong>audio-only</strong> export (video+audio is confirmed; a standalone audio file is not)</li>
       <li>Exact parity of every asset catalog item across products</li>
     </ul>
     <p>
       Ratings reflect product capability as understood <strong>August 2026</strong>
-      (Shader Workshop mipmaps + Speed-tab graph; FragCoord through
-      <a href="https://fragcoord.xyz/changelog" target="_blank" rel="noopener">changelog</a> <strong>1.3.2</strong>).
+      (Shader Workshop Cube A, mipmaps, Speed-tab graph; FragCoord through
+      <a href="https://fragcoord.xyz/changelog" target="_blank" rel="noopener">changelog</a> <strong>1.4.1</strong>,
+      with audio-row confirmations from
+      <a href="https://x.com/XorDev/status/2090940248968593753" target="_blank" rel="noopener">Xor</a>).
       Products change; corrections welcome via the
       <a href="https://github.com/rswinkle/shader_workshop_tracker" target="_blank" rel="noopener">issue tracker</a>.
     </p>

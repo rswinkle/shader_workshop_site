@@ -31,10 +31,10 @@
       title: "Audio",
       rows: [
         ["Procedural sound-out (mainSound)", "yes", "no", "yes"],
-        ["Music / analysis texture (classic 512×2 FFT + wave)", "yes", "unknown", "yes"],
+        ["Music / analysis textures as separate channel inputs (512×2 FFT + wave)", "yes", "no", "yes"],
         ["Always-on audio history (512×512 spectrogram)", "no", "yes", "yes"],
         ["Microphone input", "yes", "yes", "yes"],
-        ['Live post-mix / "what you hear" analysis', "no", "unknown", "yes"],
+        ['Live post-mix / "what you hear" analysis', "no", "no", "yes"],
       ],
     },
     {
@@ -52,7 +52,7 @@
         ["Keyboard", "yes", "yes", "yes"],
         ["Mouse (position / click / drag style)", "yes", "yes", "yes"],
         ["Cubemap textures (static assets)", "yes", "yes", "yes"],
-        ["Procedural cubemap pass (CubeA / mainCubemap)", "yes", "yes", "no"],
+        ["Procedural cubemap pass (CubeA / mainCubemap)", "yes", "yes", "yes"],
         ["3D volume textures", "yes", "yes", "yes"],
         ["Custom local / URL media", "partial", "yes", "yes"],
         ["Previous-canvas feedback without a free buffer (u_main)", "partial", "yes", "yes"],
@@ -65,9 +65,10 @@
         ["Global canvas resolution control", "partial", "yes", "yes"],
         ["Screenshots", "yes", "yes", "yes"],
         ["Video export", "partial", "yes", "yes"],
-        ["Audio-only export", "no", "unknown", "yes"],
+        ["Audio-only export", "no", "no", "yes"],
         ["Custom parameters UI", "partial", "yes", "yes"],
         ["In-browser GLSL (or multi-lang) editor", "yes", "yes", "no"],
+        ["In-editor AI assistant", "no", "yes", "no"],
         ["Offline native app / local binaries", "no", "no", "yes"],
         ["CPU software path (no GPU required to run)", "no", "no", "yes"],
       ],
@@ -160,7 +161,7 @@
     return (
       '<div class="cmp-summary">' +
       "<p><strong>Shadertoy</strong> — Reference community GLSL multipass site (buffers, CubeA, social).</p>" +
-      "<p><strong>FragCoord</strong> — Browser analysis / authoring IDE (inspect, heatmap, tuner, recursion, MRT / compute / non-2D buffers, full media catalog).</p>" +
+      "<p><strong>FragCoord</strong> — Browser analysis / authoring IDE (inspect + expression graph, heatmap, tuner, recursion, MRT / compute / non-2D buffers, AI assistant, full media catalog).</p>" +
       "<p><strong>Shader Workshop</strong> — Offline C/C++ runtime: multipass/float/res, media, freefly, recursion, mipmapped static textures, Speed-tab frame graph, export — <em>no GPU required</em>.</p>" +
       "</div>"
     );
