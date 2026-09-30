@@ -54,6 +54,8 @@
         ["Cubemap textures (static assets)", "yes", "yes", "yes"],
         ["Procedural cubemap pass (CubeA / mainCubemap)", "yes", "yes", "yes"],
         ["3D volume textures", "yes", "yes", "yes"],
+        ["sRGB texture sampling", "no", "no", "partial"],
+        ["Display color gamut (sRGB vs Display P3)", "no", "yes", "no"],
         ["Custom local / URL media", "partial", "yes", "yes"],
         ["Previous-canvas feedback without a free buffer (u_main)", "partial", "yes", "yes"],
       ],
@@ -64,13 +66,16 @@
         ["Pause / time scrub / FPS control", "partial", "yes", "yes"],
         ["Global canvas resolution control", "partial", "yes", "yes"],
         ["Screenshots", "yes", "yes", "yes"],
-        ["Video export", "partial", "yes", "yes"],
+        ["Live video record", "partial", "yes", "yes"],
+        ["Offline video export", "no", "no", "yes"],
         ["Audio-only export", "no", "no", "yes"],
         ["Custom parameters UI", "partial", "yes", "yes"],
         ["In-browser GLSL (or multi-lang) editor", "yes", "yes", "no"],
+        ["C/C++ source, or any C ABI shared library", "no", "no", "yes"],
         ["In-editor AI assistant", "no", "yes", "no"],
         ["Offline native app / local binaries", "no", "no", "yes"],
         ["CPU software path (no GPU required to run)", "no", "no", "yes"],
+        ["Live CPU thread count and OpenMP schedule", "no", "no", "yes"],
       ],
     },
     {
@@ -162,7 +167,7 @@
       '<div class="cmp-summary">' +
       "<p><strong>Shadertoy</strong> — Reference community GLSL multipass site (buffers, CubeA, social).</p>" +
       "<p><strong>FragCoord</strong> — Browser analysis / authoring IDE (inspect + expression graph, heatmap, tuner, recursion, MRT / compute / non-2D buffers, AI assistant, full media catalog).</p>" +
-      "<p><strong>Shader Workshop</strong> — Offline C/C++ runtime: multipass/float/res, media, freefly, recursion, mipmapped static textures, Speed-tab frame graph, export — <em>no GPU required</em>.</p>" +
+      "<p><strong>Shader Workshop</strong> — Offline runtime: C/C++ source or any C ABI shared library, multipass/float/res, media, optional sRGB sampling, live CPU threads, freefly, recursion, mipmapped static textures, Speed-tab frame graph, export — <em>no GPU required</em>.</p>" +
       "</div>"
     );
   }

@@ -6,8 +6,8 @@
   <title>Shader Workshop — C/C++ shaders offline</title>
   <meta name="description" content="Write Shadertoy-style shaders in C/C++. Offline native app with multipass, media, audio, export, and CPU software rendering." />
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="../shared/comparison.css" />
-  <link rel="stylesheet" href="../shared/lightbox.css" />
+  <link rel="stylesheet" href="shared/comparison.css" />
+  <link rel="stylesheet" href="shared/lightbox.css" />
 </head>
 <body>
   <nav class="nav" aria-label="Primary">
@@ -51,10 +51,10 @@
         <div class="chrome">
           <span class="dot"></span><span class="dot"></span><span class="dot"></span>
         </div>
-        <a class="lb-shot" href="../shared/screenshots/tileable_water_caustic_speed_graph.png" target="_blank" rel="noopener">
+        <a class="lb-shot" href="shared/screenshots/tileable_water_caustic_speed_graph.png" target="_blank" rel="noopener">
           <img
             class="hero-shot"
-            src="../shared/screenshots/tileable_water_caustic_speed_graph.png"
+            src="shared/screenshots/tileable_water_caustic_speed_graph.png"
             alt="Tileable water caustic shader with the Speed tab frame-time graph"
             loading="eager" />
         </a>
@@ -68,12 +68,17 @@
       <p>Everything you expect from a modern shader playground — plus a real native toolchain.</p>
     </div>
     <div class="bento">
-      <article class="bento-card span-6 accent">
+      <article class="bento-card span-4 accent">
         <div class="icon">{ }</div>
-        <h3>C/C++ shaders</h3>
-        <p>GLM, rsw_math, PortableGL math, or your own libraries. Open <code>.c</code>/<code>.cpp</code> sources, auto-compile to shared libraries, hot-reload on save.</p>
+        <h3>C/C++ source</h3>
+        <p>GLM, rsw_math, PortableGL math, or your own libraries. Open a <code>.c</code> or <code>.cpp</code> and Workshop compiles it and hot-reloads when you save.</p>
       </article>
-      <article class="bento-card span-6">
+      <article class="bento-card span-4">
+        <div class="icon">⬡</div>
+        <h3>Any C ABI shader</h3>
+        <p>Build the <code>.so</code> or <code>.dll</code> yourself in Zig, Rust, Odin, Go, Nelua, or another C ABI language. Workshop does not compile those. It hot-reloads the binary when that file changes.</p>
+      </article>
+      <article class="bento-card span-4">
         <div class="icon">⬚</div>
         <h3>Multipass &amp; float buffers</h3>
         <p>A–D style passes, RGBA32F storage, independent resolutions, pass recursion, and previous-frame feedback via <code>u_main</code>.</p>
@@ -125,7 +130,7 @@
       <div class="video-stack">
         <div class="video-box">
           <iframe
-            src="https://www.youtube.com/embed/vXYMLWKvXrs"
+            src="https://www.youtube.com/embed/i_8TLcz6q80"
             title="Shader Workshop video"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen
@@ -133,7 +138,7 @@
         </div>
         <div class="video-box">
           <iframe
-            src="https://www.youtube.com/embed/6mo1kXVUfLU"
+            src="https://www.youtube.com/embed/U1hM74lAFso"
             title="Shader Workshop video"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen
@@ -141,14 +146,14 @@
         </div>
       </div>
       <div class="shot-stack">
-        <a class="lb-shot" href="../shared/screenshots/cubemap_demo1.png" target="_blank" rel="noopener">
-          <img class="shot-img" src="../shared/screenshots/cubemap_demo1.png" alt="Cubemap gnomonic demo with a gallery courtyard on the Channels tab" loading="lazy" />
+        <a class="lb-shot" href="shared/screenshots/cubemap_demo1.png" target="_blank" rel="noopener">
+          <img class="shot-img" src="shared/screenshots/cubemap_demo1.png" alt="Cubemap gnomonic demo with a gallery courtyard on the Channels tab" loading="lazy" />
         </a>
-        <a class="lb-shot" href="../shared/screenshots/minkowski_madness_custom_gui.png" target="_blank" rel="noopener">
-          <img class="shot-img" src="../shared/screenshots/minkowski_madness_custom_gui.png" alt="Minkowski tunnel shader with a custom parameter GUI" loading="lazy" />
+        <a class="lb-shot" href="shared/screenshots/minkowski_madness_custom_gui.png" target="_blank" rel="noopener">
+          <img class="shot-img" src="shared/screenshots/minkowski_madness_custom_gui.png" alt="Minkowski tunnel shader with a custom parameter GUI" loading="lazy" />
         </a>
-        <a class="lb-shot" href="../shared/screenshots/music_synthesizer_mainSound.png" target="_blank" rel="noopener">
-          <img class="shot-img" src="../shared/screenshots/music_synthesizer_mainSound.png" alt="Music synthesizer mainSound demo with piano-roll custom UI" loading="lazy" />
+        <a class="lb-shot" href="shared/screenshots/music_synthesizer_mainSound.png" target="_blank" rel="noopener">
+          <img class="shot-img" src="shared/screenshots/music_synthesizer_mainSound.png" alt="Music synthesizer mainSound demo with piano-roll custom UI" loading="lazy" />
         </a>
       </div>
     </div>
@@ -167,7 +172,7 @@
         </div>
         <div class="why-card">
           <h3>Language you control</h3>
-          <p>Trade GLSL’s ergonomics for C/C++ power: real state, mixed rendering techniques, and the debugger you already use.</p>
+          <p>C and C++ are compiled for you. Any other C ABI language works once you build the shared library; Workshop reloads that file when it changes. Either way you get real state and a normal debugger.</p>
         </div>
         <div class="why-card">
           <h3>CPU as a feature</h3>
@@ -210,8 +215,8 @@
     <p>Shader Workshop by <a href="https://robertwinkler.com" target="_blank" rel="noopener">Robert Winkler</a> · static site · design: modern-landing</p>
   </footer>
 
-  <script src="../shared/comparison.js"></script>
-  <script src="../shared/lightbox.js"></script>
+  <script src="shared/comparison.js"></script>
+  <script src="shared/lightbox.js"></script>
   <script>
     SWComparison.mount("#comparison-mount");
   </script>

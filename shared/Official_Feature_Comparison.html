@@ -120,7 +120,7 @@
       <a href="https://www.shadertoy.com" target="_blank" rel="noopener">Shadertoy.com</a> ·
       <a href="https://fragcoord.xyz" target="_blank" rel="noopener">FragCoord.xyz</a> ·
       <a href="https://shaderworkshop.com">Shader Workshop</a>
-      (offline C/C++ app; CPU software rendering via PortableGL)
+      (offline app; C/C++ source or any C ABI shared library; CPU software rendering via PortableGL)
     </p>
     <p>
       Ratings prefer first-hand product knowledge and public docs
@@ -352,6 +352,18 @@
             <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
           </tr>
           <tr>
+            <td class="cmp-feature">sRGB texture sampling</td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-partial"><span class="cmp-emoji">🟡</span><span class="cmp-label">Partial</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Display color gamut (sRGB vs Display P3)</td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+          </tr>
+          <tr>
             <td class="cmp-feature">Custom local / URL media</td>
             <td><span class="cmp-badge cmp-partial"><span class="cmp-emoji">🟡</span><span class="cmp-label">Partial</span></span></td>
             <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
@@ -371,7 +383,9 @@
       <li>Shadertoy keyboard is a <strong>channel</strong> texture; FragCoord and Workshop expose keyboard without using a channel slot (Workshop: always-on array).</li>
       <li>Shadertoy previous-frame feedback is usually <strong>buffer self-bind</strong> (🟡 vs dedicated previous-main). FragCoord/Workshop: <code>u_main</code> (Workshop also under recursion). FragCoord 1.3.1 fixed ping-pong / <code>u_main</code> export and thumbnail capture.</li>
       <li>FragCoord media: <strong>URL grab</strong> (similar idea to Workshop custom loads) <strong>and</strong> a built-in catalog in the sampler configuration panel (1.3: hide tiles, favorites, Poly Haven and procedural textures). Equirectangular cubemaps upload on WebGPU. CubeA-style <strong>cubemap pass buffers</strong> are now first-class on FragCoord (1.3, Pro for non-2D).</li>
-      <li>Workshop Cube A is a hidden pass (<code>mainCubemap</code>, no <code>rayOri</code>, no tab): bind <code>CUBE_A</code> from Misc. RGBA8; face size is a Behavior preference (128 / 256 / 512 / 1024, default 512). Static cubemap assets remain on the Cubemaps tab.</li>
+      <li>Workshop Cube A is a hidden pass (<code>mainCubemap</code>, no <code>rayOri</code>, no tab): bind <code>CUBE_A</code> from Misc. RGBA8; face size is a Behavior preference (128 / 256 / 512 / 1024, default 256). Static cubemap assets remain on the Cubemaps tab. A static cubemap can also be built from one equirectangular image (file or URL).</li>
+      <li><strong>sRGB texture sampling</strong> decodes U8 RGB to linear at sample time. Shadertoy and FragCoord return the stored bytes as 0–1. Workshop’s channel checkbox does the decode for static 2D textures and static cubemaps (off by default; same inputs as mipmaps). Buffers, video, webcam, screen capture, volumes, and Cube A stay linear. The window is still RGBA8 with no output encode.</li>
+      <li><strong>Display color gamut</strong> is separate from that. FragCoord <code>u_color_gamut</code> picks the output gamut (0 = sRGB, 1 = display-p3) under Settings → Viewport. Shadertoy’s canvas is sRGB and has no Display P3 switch. Workshop has no display-gamut control.</li>
     </ul>
  
     <h2>Playback, export &amp; authoring</h2>
@@ -405,9 +419,15 @@
             <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
           </tr>
           <tr>
-            <td class="cmp-feature">Video export</td>
+            <td class="cmp-feature">Live video record</td>
             <td><span class="cmp-badge cmp-partial"><span class="cmp-emoji">🟡</span><span class="cmp-label">Partial</span></span></td>
             <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+          <tr>
+            <td class="cmp-feature">Offline video export</td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
             <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
           </tr>
           <tr>
@@ -429,6 +449,12 @@
             <td class="cmp-highlight-col"><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
           </tr>
           <tr>
+            <td class="cmp-feature">C/C++ source, or any C ABI shared library</td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
+          <tr>
             <td class="cmp-feature">In-editor AI assistant</td>
             <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
             <td><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
@@ -446,15 +472,23 @@
             <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
             <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
           </tr>
+          <tr>
+            <td class="cmp-feature">Live CPU thread count and OpenMP schedule</td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td><span class="cmp-badge cmp-no"><span class="cmp-emoji">🔴</span><span class="cmp-label">No</span></span></td>
+            <td class="cmp-highlight-col"><span class="cmp-badge cmp-yes"><span class="cmp-emoji">🟢</span><span class="cmp-label">Yes</span></span></td>
+          </tr>
         </tbody>
       </table>
     </div>
     <p><strong>Notes</strong></p>
     <ul class="notes">
       <li>Shadertoy time/resolution controls and export are more limited than dedicated tools.</li>
-      <li>FragCoord: strong time/resolution control (1.3.2: click timeline to play/pause, drag to seek; viewport W×H lock including Square), export to several targets (WebGL HTML, WebGPU HTML, Shadertoy, HLSL, Metal, WGSL, SKSL, Slang, Golf), Tuner. Capture and Display are inspector panels (1.4). Video export includes audio, loop settings, live WebM capture, a code overlay option, and 1.4.1 compute-pass PNG/WebP/WebM/MP4 via the live WebGPU viewport. No standalone audio-only file export (<a href="https://x.com/XorDev/status/2090940248968593753" target="_blank" rel="noopener">Xor, 21 Aug 2026</a>). PWA install exists; still not a native offline binary.</li>
+      <li>FragCoord: strong time/resolution control (1.3.2: click timeline to play/pause, drag to seek; viewport W×H lock including Square), export to several targets (WebGL HTML, WebGPU HTML, Shadertoy, HLSL, Metal, WGSL, SKSL, Slang, Golf), Tuner. Capture and Display are inspector panels (1.4). Live video record includes audio, loop settings, live WebM capture, a code overlay option, and 1.4.1 compute-pass PNG/WebP/WebM/MP4 via the live WebGPU viewport. No standalone audio-only file export (<a href="https://x.com/XorDev/status/2090940248968593753" target="_blank" rel="noopener">Xor, 21 Aug 2026</a>). PWA install exists; still not a native offline binary.</li>
+      <li><strong>Offline video export</strong> is the film-button bake. It writes a time range at a constant FPS, ignoring vsync and the shader FPS cap, so a slow shader still hits that rate and a fast shader finishes faster than real time. Encoding quality is separate from the live recorder. Mouse, keyboard, and freefly stay frozen for the bake. Shadertoy and FragCoord record what is playing live.</li>
       <li>FragCoord <strong>AI assistant</strong> (1.4, off unless you enable it): chat, compile-error fixes, explain selection, generate-from-prompt, optional inline completions. Hosted Pro credits or your own API key. Apply/generate support GLSL and native WGSL; other languages stay explain-only. Shadertoy and Workshop have no in-app assistant.</li>
-      <li>Workshop: C/C++ shaders as shared libraries + <code>do_user_gui</code> — not an in-app GLSL editor <strong>by design</strong>. MP4 (with audio) and audio-only export.</li>
+      <li>Workshop compiles C and C++ when you save the source. A shared library you built yourself, in Zig, Rust, Odin, Go, Nelua, or any other C ABI language, is not compiled by the app. Saving a new <code>.so</code> or <code>.dll</code> hot-reloads it. FragCoord’s GLSL, WGSL, Slang, and HLSL support is the in-browser editor row, not a C ABI. <code>do_user_gui</code> is the custom parameters UI. MP4 (with audio) and audio-only export.</li>
+      <li>Workshop’s Performance controls set the shader thread count and the OpenMP schedule (static, guided, or dynamic) while the shader is running. Shadertoy and FragCoord schedule work on the GPU.</li>
     </ul>
  
     <h2>Analysis, community &amp; niche</h2>
@@ -555,7 +589,7 @@
           </tr>
           <tr>
             <td><strong>Shader Workshop</strong></td>
-            <td class="cmp-feature"><strong>Offline C/C++ runtime</strong>: multipass/float/res, media (video, volumes, mic, webcam, screen), Cube A, freefly, recursion, <code>u_main</code> / <code>u_audio</code>, mipmapped static textures, Speed-tab frame graph, export — <strong>no GPU required</strong>.</td>
+            <td class="cmp-feature"><strong>Offline runtime</strong>: C/C++ source or any C ABI shared library; multipass/float/res, media (video, volumes, mic, webcam, screen), Cube A, freefly, recursion, <code>u_main</code> / <code>u_audio</code>, mipmapped and optional sRGB static textures, live CPU threads, Speed-tab frame graph, export — <strong>no GPU required</strong>.</td>
           </tr>
         </tbody>
       </table>
@@ -566,8 +600,8 @@
       <li>Exact parity of every asset catalog item across products</li>
     </ul>
     <p>
-      Ratings reflect product capability as understood <strong>August 2026</strong>
-      (Shader Workshop Cube A, mipmaps, Speed-tab graph; FragCoord through
+      Ratings reflect product capability as understood <strong>September 2026</strong>
+      (Shader Workshop sRGB sampling, C ABI shared libraries, live OpenMP schedule; FragCoord through
       <a href="https://fragcoord.xyz/changelog" target="_blank" rel="noopener">changelog</a> <strong>1.4.1</strong>,
       with audio-row confirmations from
       <a href="https://x.com/XorDev/status/2090940248968593753" target="_blank" rel="noopener">Xor</a>).
