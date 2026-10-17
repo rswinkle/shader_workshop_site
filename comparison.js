@@ -1,5 +1,5 @@
 /**
- * Feature comparison table data + renderer for Shader Workshop site variants.
+ * Feature comparison table data + renderer for the Shader Workshop site.
  * Ratings: yes | partial | no | unknown
  */
 (function (global) {
@@ -180,7 +180,7 @@
         return src.replace("comparison.js", "Official_Feature_Comparison.html");
       }
     }
-    return "shared/Official_Feature_Comparison.html";
+    return "Official_Feature_Comparison.html";
   }
 
   function mount(selector) {
